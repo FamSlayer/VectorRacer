@@ -24,9 +24,8 @@ public class Expand : MonoBehaviour
 
     void Update ()
     {
-
-        period_timer += Time.deltaTime;
-        period_timer %= period;
+        //period_timer += Time.deltaTime;
+        period_timer = TimeKeeper.global.my_time % period;
         float ratio = period_timer / period;
 
         float lerp_speed = Time.deltaTime / period * (scaling / pop_percentage);
