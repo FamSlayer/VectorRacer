@@ -28,7 +28,8 @@ public class Expand : MonoBehaviour
         period_timer = TimeKeeper.global.my_time % period;
         float ratio = period_timer / period;
 
-        float lerp_speed = Time.deltaTime / period * (scaling / pop_percentage);
+        float lerp_speed = 3 * Time.deltaTime * (scaling / pop_percentage);
+
 
         /* shrink */
         if (ratio < 1f - pop_percentage)

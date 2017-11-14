@@ -5,7 +5,7 @@ using UnityEngine;
 public class TimeKeeper : Singleton<TimeKeeper> {
 
     [HideInInspector]
-    public float my_time;
+    public float my_time = 0f;
 
 	void Update ()
     {

@@ -107,6 +107,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9d6a835d8b851d41a1244a5193f1e98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scaling: 1.5
-  period: 0.75
+  scaling: 0.5
+  period: 1.1145166
   pop_percentage: 0.15
