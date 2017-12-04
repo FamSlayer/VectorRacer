@@ -9,94 +9,44 @@ public class ObjectKeeper : Singleton<ObjectKeeper>
         cubes,
         bars,
         strummers,
+        rotators,
+        slitherers,
     }
     
-    public float expand_beats;
-    public float shrink_beats;
-
     public List<Musical> All_Objects;
     public List<Expand> Cubes;
     public List<Bouncer> Bars;
     public List<Strummer> Strummers;
-
-    public TextAsset bp_melody_txt;
-    public TextAsset bp_bassline_txt;
-
-
-    public List<int> Melody_Beats;
-    public List<int> Bassline_Beats;
-    
-
-    private int melodyBeatCounter = 1;
-    private int basslineBeatCounter = 0;
-    //private string txt;
+    public List<Rotator> Rotators;
+    public List<Slitherer> Slitherers;
 
     private void Awake()
     {
         All_Objects = new List<Musical>();
         Cubes = new List<Expand>();
         Bars = new List<Bouncer>();
-        
-        Melody_Beats = new List<int>();
-        Bassline_Beats = new List<int>();
-
-        LoadMelodyBeats(bp_melody_txt);
-        LoadBasslineBeats(bp_bassline_txt);
-
-        SnapCubes();
+        Strummers = new List<Strummer>();
+        Rotators = new List<Rotator>();
+        Slitherers = new List<Slitherer>();
     }
-    
 
-    public void SendBeat(int beat_num)
+    /*
+    private void Update()
     {
-        if(melodyBeatCounter < Melody_Beats.Count)
-        {
-            if (beat_num - expand_beats == Melody_Beats[melodyBeatCounter])
-            {
-                //SnapCubes();
-                //SnapStrummers();
-                SnapAll(ObjectType.cubes);
-                SnapAll(ObjectType.strummers);
+        print("All_Objects.Count = " + All_Objects.Count + "   Cubes.Count = " + Cubes.Count + "   RotatorsCount = " + Rotators.Count);
 
-                melodyBeatCounter++;
-            }
-            else if (beat_num == Melody_Beats[melodyBeatCounter])
+        foreach(Musical e in Cubes)
+        {
+            if(e is Rotator)
             {
-                TriggerAll(ObjectType.cubes);
-                TriggerAll(ObjectType.strummers);
+                print("e is a rotator...");
             }
         }
-        else
-        {
-            //print("Further than recorded melody...");
-        }
-
-
-
-        if(basslineBeatCounter < Bassline_Beats.Count)
-        {
-            if (beat_num - expand_beats == Bassline_Beats[basslineBeatCounter])
-            {
-                SnapAll(ObjectType.bars);
-                //SnapBars();
-                basslineBeatCounter++;
-            }
-            else if (beat_num == Bassline_Beats[basslineBeatCounter])
-            {
-                TriggerAll(ObjectType.bars);
-                RaiseBars();
-            }
-        }
-        else
-        {
-            //print("Further than recorded bassline...");
-        }
-
-
     }
+    */
 
-    
-    private void SnapAll(ObjectType type)
+
+    public void Snap(ObjectType type)
     {
         switch(type)
         {
@@ -112,10 +62,18 @@ public class ObjectKeeper : Singleton<ObjectKeeper>
                 foreach (Musical m in Strummers)
                     m.Snap();
                 break;
+            case ObjectType.rotators:
+                foreach (Musical m in Rotators)
+                    m.Snap();
+                break;
+            case ObjectType.slitherers:
+                foreach (Musical m in Slitherers)
+                    m.Snap();
+                break;
         }
     }
 
-    private void TriggerAll(ObjectType type)
+    public void Trigger(ObjectType type)
     {
         switch (type)
         {
@@ -131,96 +89,66 @@ public class ObjectKeeper : Singleton<ObjectKeeper>
                 foreach (Musical m in Strummers)
                     m.Trigger();
                 break;
+            case ObjectType.rotators:
+                foreach (Musical m in Rotators)
+                    m.Trigger();
+                break;
+            case ObjectType.slitherers:
+                foreach (Musical m in Slitherers)
+                    m.Trigger();
+                break;
         }
     }
 
-
-    private void SnapCubes()
+    public void Pause(ObjectType type)
     {
-        foreach (Expand e in Cubes)
+        switch (type)
         {
-            e.Snap();
+            case ObjectType.bars:
+                foreach (Musical m in Bars)
+                    m.Pause();
+                break;
+            case ObjectType.cubes:
+                foreach (Musical m in Cubes)
+                    m.Pause();
+                break;
+            case ObjectType.strummers:
+                foreach (Musical m in Strummers)
+                    m.Pause();
+                break;
+            case ObjectType.rotators:
+                foreach (Musical m in Rotators)
+                    m.Pause();
+                break;
+            case ObjectType.slitherers:
+                foreach (Musical m in Slitherers)
+                    m.Pause();
+                break;
+
         }
     }
+    
 
-    private void InflateCubes()
+
+    public void Remove(GameObject g)
     {
-        foreach (Expand e in Cubes)
+        Musical[] musicals = g.GetComponents<Musical>();
+        foreach(Musical m in musicals)
         {
-            e.Trigger();
-        }
-    }
-
-    private void SnapStrummers()
-    {
-        foreach (Strummer s in Strummers)
-        {
-            s.Snap();
-        }
-    }
-
-    private void TriggerStrummer()
-    {
-        foreach (Strummer s in Strummers)
-        {
-            s.Trigger();
-        }
-    }
-
-    private void SnapBars()
-    {
-        foreach (Musical b in Bars)
-        {
-            b.Snap();
-        }
-    }
-
-    private void RaiseBars()
-    {
-        foreach (Musical b in Bars)
-        {
-            b.Trigger();
+            All_Objects.Remove(m);
+            if (m as Expand != null)
+                Cubes.Remove(m as Expand);
+            if (m as Bouncer != null)
+                Bars.Remove(m as Bouncer);
+            if (m as Strummer != null)
+                Strummers.Remove(m as Strummer);
+            if (m as Rotator != null)
+                Rotators.Remove(m as Rotator);
+            if (m as Slitherer != null)
+                Slitherers.Remove(m as Slitherer);
         }
     }
 
 
-    private void LoadMelodyBeats(TextAsset t)
-    {
-        /* Parse the text type files */
-        char[] txt_delimiters = { '\t', '\n' };
-        string[] txt_pieces = t.text.Split(txt_delimiters);
-
-        double bps = TimeKeeper.global.bpm / 60.0;
-        double beat_rate = 1.0 / bps;
-
-        for (int i = 0; i < txt_pieces.Length - 1; i += 2)
-        {
-            double beat_time = double.Parse(txt_pieces[i]);
-            int num_beats_count = (int)(4.0 * beat_time * bps);
-            Melody_Beats.Add(num_beats_count);
-            //print("res: " + beat_time / beat_rate);
-            //print("\t[" + i.ToString() + "] -   beat_time: " + res + "\tnum_beats_count = " + num_beats_count);
-        }
-    }
-
-    private void LoadBasslineBeats(TextAsset t)
-    {
-        /* Parse the text type files */
-        char[] txt_delimiters = { '\t', '\n' };
-        string[] txt_pieces = t.text.Split(txt_delimiters);
-
-        double bps = TimeKeeper.global.bpm / 60.0;
-        double beat_rate = 1.0 / bps;
-
-        for (int i = 0; i < txt_pieces.Length - 1; i += 2)
-        {
-            double beat_time = double.Parse(txt_pieces[i]);
-            int num_beats_count = (int)(4.0 * beat_time * bps);
-            Bassline_Beats.Add(num_beats_count);
-            //print("res: " + beat_time / beat_rate);
-            //print("\t[" + i.ToString() + "] -   beat_time: " + res + "\tnum_beats_count = " + num_beats_count);
-
-        }
-    }
-
+    
 }

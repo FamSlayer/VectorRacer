@@ -13,8 +13,8 @@ public class DSPTime : MonoBehaviour
     public int signatureHi;// = 4;
     public int signatureLo;// = 4;
     private double nextTick = 0.0F;
-    private float amp = 0.0F;
-    private float phase = 0.0F;
+    //private float amp = 0.0F;
+    //private float phase = 0.0F;
     private double sampleRate = 0.0F;
     private int accent;
     private bool running = false;
@@ -35,17 +35,24 @@ public class DSPTime : MonoBehaviour
     void Start()
     {
         accent = signatureHi;
-        double startTick = AudioSettings.dspTime;
         sampleRate = AudioSettings.outputSampleRate;
+        //running = true;
+    }
+
+    public void BeginPlay()
+    {
+        double startTick = AudioSettings.dspTime;
         nextTick = startTick * sampleRate;
+        GetComponent<AudioSource>().Play();
         running = true;
+        TimeKeeper.global.SendBeat(0);
     }
 
     void OnAudioFilterRead(float[] data, int channels)
     {
         if (!running)
             return;
-
+        
         double samplesPerTick = sampleRate * 60.0F / bpm * 4.0F / signatureLo;
         double sample = AudioSettings.dspTime * sampleRate;
         //print("dpsTime: \t" + AudioSettings.dspTime);
@@ -53,22 +60,13 @@ public class DSPTime : MonoBehaviour
         int n = 0;
         while (n < dataLen)
         {
-            
-            float x = gain * amp * Mathf.Sin(phase);
-            int i = 0;
-            while (i < channels)
-            {
-                data[n * channels + i] += x;
-                i++;
-            }
-            
             while (sample + n >= nextTick)
             {
                 nextTick += samplesPerTick;
                 if (increment)
                 {
                     real_beat_counter++;
-                    ObjectKeeper.global.SendBeat(real_beat_counter);
+                    TimeKeeper.global.SendBeat(real_beat_counter);
                     //increment = !increment;
                 }
                 else
@@ -77,8 +75,6 @@ public class DSPTime : MonoBehaviour
                 }
                 
             }
-            phase += amp * 0.3F;
-            amp *= 0.993F;
             n++;
         }
     }

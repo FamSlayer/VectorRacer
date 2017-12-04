@@ -52,4 +52,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bpm: 120
-  my_time: 0
+  expand_beats: 1
+  shrink_beats: 7
+  bp_melody_txt: {fileID: 4900000, guid: 371f8f4136795744986897ae50a4962f, type: 3}
+  bp_bassline_txt: {fileID: 4900000, guid: 671dab17080dad0448c2dbe36406f719, type: 3}
+  bp_drumkick_txt: {fileID: 4900000, guid: 6630a4dd73c484e43aedf40e0f10622b, type: 3}
+  bp_drumsnare_txt: {fileID: 4900000, guid: 48dada5ec3e91184b953d0c29f10210c, type: 3}
+  bp_woodblock_txt: {fileID: 4900000, guid: 4b5787fc0a698b84298db0b1277b8de8, type: 3}
+  MelodyBeats: 
+  BasslineBeats: 
+  WoodblockBeats: 
+  DrumKickBeats: 
+  DrumSnareBeats: 

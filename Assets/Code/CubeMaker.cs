@@ -14,11 +14,7 @@ public class CubeMaker : MonoBehaviour
         for(int i = 0; i < cube_count; i++)
         {
             GameObject c = Instantiate(expansion_cube, transform);
-            c.transform.position = new Vector3(Random.Range(x_min, x_max), Random.Range(y_min, y_max), Random.Range(z_min, z_max));
-
-            Vector3 angles = new Vector3(Random.Range(0f, 360f), Random.Range(0f, 360f), Random.Range(0f, 360f));
-            print("[" + i + "] - " + angles.ToString());
-            c.transform.rotation.SetEulerAngles(angles.x, angles.y, angles.z);
+            c.transform.localPosition = new Vector3(Random.Range(x_min, x_max), Random.Range(y_min, y_max), Random.Range(z_min, z_max));
         }
     }
     
