@@ -21,8 +21,8 @@ public class Slitherer : Musical
         curr_horizontal_speed = min_movespeed;
         curr_vertical_speed = min_movespeed;
 
-        increase_rate = 4 * (max_movespeed - min_movespeed) * bpsecond / (TimeKeeper.global.expand_beats);
-        decrease_rate = 4 * (max_movespeed - min_movespeed) * bpsecond / (TimeKeeper.global.shrink_beats);
+        increase_rate = 6f * (max_movespeed - min_movespeed) * bpsecond / (TimeKeeper.global.expand_beats);
+        decrease_rate = 2f * (max_movespeed - min_movespeed) * bpsecond / (TimeKeeper.global.shrink_beats);
 
     }
 

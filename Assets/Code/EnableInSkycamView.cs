@@ -20,20 +20,8 @@ public class EnableInSkycamView : SlowLoop
     {
         screenPoint = Core.global.sky_cam.WorldToViewportPoint(transform.position);
         bool onScreen = screenPoint.z > 0 && screenPoint.x > 0f && screenPoint.x < 1.05f && screenPoint.y > -.05f && screenPoint.y < 1.05f;
-        my_expand.enabled = onScreen;
-        my_rotator.enabled = onScreen;
-
-        /*
-        if(!onScreen)// && (my_expand.enabled || my_rotator.enabled))
-        {
-            my_rotator.enabled = false;
-            my_expand.enabled = false;
-        }
-        else if(onScreen)// && (!my_expand.enabled || !my_rotator.enabled))
-        {
-            my_expand.enabled = true;
-            my_rotator.enabled = true;
-        }
-        */
+        my_expand.enabled = my_rotator.enabled = onScreen;
+        //my_expand.enabled = onScreen;
+        //my_rotator.enabled = onScreen;
     }
 }

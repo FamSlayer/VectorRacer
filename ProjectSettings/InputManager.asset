@@ -13,9 +13,9 @@ InputManager:
     positiveButton: right
     altNegativeButton: a
     altPositiveButton: d
-    gravity: 3
+    gravity: 1000
     dead: 0.001
-    sensitivity: 3
+    sensitivity: 1000
     snap: 1
     invert: 0
     type: 0
@@ -41,10 +41,10 @@ InputManager:
     m_Name: accelerate
     descriptiveName: 
     descriptiveNegativeName: 
-    negativeButton: 
-    positiveButton: left ctrl
-    altNegativeButton: 
-    altPositiveButton: mouse 0
+    negativeButton: s
+    positiveButton: w
+    altNegativeButton: up
+    altPositiveButton: down
     gravity: 1000
     dead: 0.001
     sensitivity: 1000

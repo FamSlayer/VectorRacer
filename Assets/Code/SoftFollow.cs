@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class SoftFollow : MonoBehaviour
 {
-
     public GameObject target;
+    public bool follow_pos;
+    public bool follow_rot;
     public float horiz_follow_dist;
     public float vert_follow_dist;
 
-    public float lerp_speed;
+    //public float lerp_speed;
 
     Vector3 offset;
     Vector3 curr_pos;
@@ -22,34 +23,20 @@ public class SoftFollow : MonoBehaviour
         curr_pos = target.transform.position + offset;
     }
 
-    void LateUpdate ()
+    void Update ()
     {
+        if(follow_pos)
+        {
+            offset = -target.transform.forward * horiz_follow_dist + target.transform.up * vert_follow_dist;
+            Debug.DrawLine(target.transform.position, target.transform.position + offset, Color.blue);
 
-        Debug.DrawLine(transform.position, transform.position + transform.forward * 3, Color.blue);
+            transform.position = target.transform.position + offset;
+        }
 
-        offset = -target.transform.forward * horiz_follow_dist + Vector3.up * vert_follow_dist;
-        /*
-        float offset_dist = offset.magnitude;
-        float curr_dist = Vector3.Distance(transform.position, target.transform.position);
-
-        float ratio = Mathf.Abs((curr_dist - offset_dist) / offset_dist);
-        //print("camera value: " + ratio);
-
-        float new_lerp = lerp_speed * (1 + ratio);
-        //print(new_lerp);
-        curr_pos = Vector3.Lerp(curr_pos, target.transform.position + offset, new_lerp * Time.deltaTime);
-        transform.position = curr_pos;
-        //transform.position = Vector3.Lerp(transform.position, , lerp_speed * Time.deltaTime);
-        */
-        transform.position = target.transform.position + offset;
-
-
-
-        Quaternion q = orig_rot * Quaternion.AngleAxis(target.transform.eulerAngles.y, target.transform.up);
-        transform.rotation = Quaternion.Euler(target.transform.eulerAngles.x + 25f, target.transform.eulerAngles.y, target.transform.eulerAngles.z);
-
-        //transform.Rotate(target.transform.up, transform.eulerAngles.y - target.transform.eulerAngles.y);
-
-        Debug.DrawLine(transform.position, transform.position + transform.forward * 3, Color.green);
+        if(follow_rot)
+        {
+            transform.up = target.transform.up;
+            transform.Rotate(target.transform.localEulerAngles.x + 25f, target.transform.eulerAngles.y, 0f);
+        }
     }
 }

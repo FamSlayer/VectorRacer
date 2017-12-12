@@ -11,6 +11,7 @@ public class ObjectKeeper : Singleton<ObjectKeeper>
         strummers,
         rotators,
         slitherers,
+        colorers,
     }
     
     public List<Musical> All_Objects;
@@ -19,6 +20,7 @@ public class ObjectKeeper : Singleton<ObjectKeeper>
     public List<Strummer> Strummers;
     public List<Rotator> Rotators;
     public List<Slitherer> Slitherers;
+    public List<ColorChanger> ColorSwitchers;
 
     private void Awake()
     {
@@ -28,24 +30,9 @@ public class ObjectKeeper : Singleton<ObjectKeeper>
         Strummers = new List<Strummer>();
         Rotators = new List<Rotator>();
         Slitherers = new List<Slitherer>();
+        ColorSwitchers = new List<ColorChanger>();
     }
-
-    /*
-    private void Update()
-    {
-        print("All_Objects.Count = " + All_Objects.Count + "   Cubes.Count = " + Cubes.Count + "   RotatorsCount = " + Rotators.Count);
-
-        foreach(Musical e in Cubes)
-        {
-            if(e is Rotator)
-            {
-                print("e is a rotator...");
-            }
-        }
-    }
-    */
-
-
+    
     public void Snap(ObjectType type)
     {
         switch(type)
@@ -68,6 +55,10 @@ public class ObjectKeeper : Singleton<ObjectKeeper>
                 break;
             case ObjectType.slitherers:
                 foreach (Musical m in Slitherers)
+                    m.Snap();
+                break;
+            case ObjectType.colorers:
+                foreach (Musical m in ColorSwitchers)
                     m.Snap();
                 break;
         }
@@ -97,6 +88,10 @@ public class ObjectKeeper : Singleton<ObjectKeeper>
                 foreach (Musical m in Slitherers)
                     m.Trigger();
                 break;
+            case ObjectType.colorers:
+                foreach (Musical m in ColorSwitchers)
+                    m.Trigger();
+                break;
         }
     }
 
@@ -122,6 +117,10 @@ public class ObjectKeeper : Singleton<ObjectKeeper>
                 break;
             case ObjectType.slitherers:
                 foreach (Musical m in Slitherers)
+                    m.Pause();
+                break;
+            case ObjectType.colorers:
+                foreach (Musical m in ColorSwitchers)
                     m.Pause();
                 break;
 

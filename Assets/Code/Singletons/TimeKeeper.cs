@@ -72,12 +72,14 @@ public class TimeKeeper : Singleton<TimeKeeper>
             if (beat_num - expand_beats * 2 >= BasslineBeats[basslineBeatCounter])
             {
                 ObjectKeeper.global.Snap(ObjectKeeper.ObjectType.bars);
+                ObjectKeeper.global.Snap(ObjectKeeper.ObjectType.colorers);
                 //ObjectKeeper.global.Snap(ObjectKeeper.ObjectType.rotators);
                 basslineBeatCounter++;
             }
             else if (beat_num  - expand_beats >= BasslineBeats[basslineBeatCounter])
             {
                 ObjectKeeper.global.Trigger(ObjectKeeper.ObjectType.bars);
+                ObjectKeeper.global.Trigger(ObjectKeeper.ObjectType.colorers);
                 //ObjectKeeper.global.Trigger(ObjectKeeper.ObjectType.rotators);
             }
         }

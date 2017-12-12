@@ -10,17 +10,21 @@ public class SlowLoop : MonoBehaviour
     public virtual void Awake()
     {
         update_counter = Random.Range(0, slow_loop_frequency);
+        //update_counter = 0f;
+    }
+
+    public virtual void Start()
+    {
         SlowUpdate();
     }
 
-	void Update ()
+	public virtual void Update ()
     {
-        update_counter++;
-        if (update_counter < slow_loop_frequency)
+        //update_counter++;
+        if (++update_counter % slow_loop_frequency != 0)
             return;
 
         SlowUpdate();
-        update_counter = 0;
     }
 
 

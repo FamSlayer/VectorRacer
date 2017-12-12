@@ -12,8 +12,8 @@ public class Expand : Musical
     public override void Awake ()
     {
         base.Awake();
-        increase_rate = 4 * max_scale * bpsecond / (TimeKeeper.global.expand_beats);
-        decrease_rate = 8 * max_scale * bpsecond / (TimeKeeper.global.shrink_beats);
+        increase_rate = 6f * max_scale * bpsecond / (TimeKeeper.global.expand_beats);
+        decrease_rate = 12f * max_scale * bpsecond / (TimeKeeper.global.shrink_beats);
 
     }
     public override void Start()
